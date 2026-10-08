@@ -1,8 +1,3 @@
-"""
-Problem-specific variation operators. Both NSGA-II and SPEA2 call exactly the
-same functions here (same initialisation, crossover, mutation), followed by the
-same decoder/repair (src/representation.py).
-"""
 from __future__ import annotations
 
 import numpy as np

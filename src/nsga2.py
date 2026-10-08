@@ -1,15 +1,5 @@
-"""
-NSGA-II (Deb et al., 2002) implemented from scratch.
+#NSGA-II (Deb et al., 2002) implemented from scratch.
 
-Per generation:
-    1. Binary tournament selection with the crowded-comparison operator
-       (lower rank wins; equal rank -> larger crowding distance wins).
-    2. Variation (shared operators) + repair/decoding (shared decoder).
-    3. Elitist environmental selection on parents + offspring (size 2N):
-       fill the new population front by front (fast non-dominated sort);
-       the front that does not fit completely is truncated by keeping the
-       solutions with the largest crowding distance.
-"""
 from __future__ import annotations
 
 import time

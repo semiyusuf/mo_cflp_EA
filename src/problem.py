@@ -4,18 +4,9 @@ Objective evaluation and feasibility checking for the bi-objective CFLP.
     f1 = sum_i F_i * y_i                 (facility-opening cost)
     f2 = sum_i sum_j C_ij * x_ij         (customer-allocation cost)
 
-A solution is stored as
+wwe try to store solution as a pair (y, X) where
     y : 0/1 vector of length m           (y_i = 1 if facility i is open)
     X : allocation matrix of shape (m, n), X[i, j] = x_ij
-
-x_ij is 0/1 for every customer that fits into a single facility (each such
-customer is served by exactly one open facility). The OR-Library instances
-contain a few customers whose demand d_j is LARGER than every facility
-capacity S_i (e.g. cap41: customer 33, d = 12912 > S = 5000). They cannot be
-served by one facility, so for those customers only, x_ij is the FRACTION of
-their demand served by facility i (sum_i x_ij = 1). Because C_ij is the cost of
-allocating ALL of customer j's demand to i, a fraction x_ij costs x_ij * C_ij,
-which is exactly the formula for f2 above (C_ij is never multiplied by d_j).
 """
 from __future__ import annotations
 

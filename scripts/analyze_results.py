@@ -1,18 +1,3 @@
-"""
-Compute metrics, statistical tests, tables and figures from the saved fronts.
-
-    python scripts/analyze_results.py
-
-Outputs (all in results/):
-    hv_normalisation.csv     ideal/nadir bounds and HV reference point per instance
-    all_runs.csv             one row per run: HV, #non-dominated, time, ...
-    summary_table.csv / .md  mean, std, best, worst of HV and #ND, mean time
-    stats_tests.csv / .md    Mann-Whitney U test + A12 (NSGA-II vs SPEA2)
-    config_effect.csv / .md  per algorithm: effect of the three configurations
-    figures/front_<inst>_<cfg>.png   Pareto fronts, both MOEAs on the same axes
-    figures/fronts_grid.png          all instances x configurations
-    figures/box_hv.png, box_nd.png, box_time.png
-"""
 import json
 
 import numpy as np

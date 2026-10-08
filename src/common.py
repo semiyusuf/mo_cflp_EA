@@ -1,4 +1,3 @@
-"""Settings and result containers shared by both MOEAs."""
 from __future__ import annotations
 
 from dataclasses import dataclass

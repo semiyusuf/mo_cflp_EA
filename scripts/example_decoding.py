@@ -1,11 +1,3 @@
-"""
-Show step by step how one encoded individual becomes a feasible solution
-(for the report's representation/repair example).
-
-    python scripts/example_decoding.py                  # cap41, random chromosome
-    python scripts/example_decoding.py --instance cap101 --seed 7
-    python scripts/example_decoding.py --genes 1010000000000001   # your own chromosome
-"""
 import argparse
 
 import numpy as np

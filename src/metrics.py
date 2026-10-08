@@ -1,15 +1,3 @@
-"""
-Multi-objective performance metrics.
-
-NORMALISATION (identical for both MOEAs): for each benchmark instance the
-ideal point z_min and nadir point z_max are taken over the union of ALL final
-fronts of BOTH algorithms, ALL configurations and ALL runs on that instance.
-Every objective vector is then scaled as
-        f' = (f - z_min) / (z_max - z_min)          (so every f' is in [0, 1])
-HYPERVOLUME is computed in this normalised space with the reference point
-        r = (1.1, 1.1)
-which is worse than every solution included in the comparison.
-"""
 from __future__ import annotations
 
 import numpy as np

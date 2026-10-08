@@ -1,20 +1,3 @@
-"""
-Run NSGA-II and SPEA2 on the OR-Library instances for every configuration
-and every independent run. Each run's final front is saved to
-
-    results/fronts/<instance>/<config>/<algorithm>_run<r>.csv   (f1, f2, y_0..y_m-1)
-    results/fronts/<instance>/<config>/<algorithm>_run<r>.json  (seed, time, evals, ...)
-
-Runs whose files already exist are skipped, so an interrupted experiment can
-simply be restarted. Metrics/tables/figures are produced afterwards by
-scripts/analyze_results.py (HV normalisation needs all fronts first).
-
-Examples
-    python scripts/run_experiments.py                       # report instances, all configs, 10 runs
-    python scripts/run_experiments.py --instances all
-    python scripts/run_experiments.py --instances cap41 --configs A --runs 2   # quick test
-    python scripts/run_experiments.py --jobs 4              # parallel (timings less precise)
-"""
 import argparse
 import json
 from concurrent.futures import ProcessPoolExecutor, as_completed

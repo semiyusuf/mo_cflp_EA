@@ -1,20 +1,3 @@
-"""
-Data loading for the OR-Library Capacitated Warehouse Location instances
-(J. E. Beasley, https://people.brunel.ac.uk/~mastjjb/jeb/orlib/capinfo.html).
-
-File format (whitespace separated, values may wrap over several lines):
-
-    m n                                   number of facilities, customers
-    for each facility i = 1..m:
-        capacity  fixed_cost              -> S_i, F_i
-    for each customer j = 1..n:
-        demand                            -> d_j
-        cost_1j cost_2j ... cost_mj       -> C_ij (cost of allocating ALL of
-                                             customer j's demand to i)
-
-The values are used exactly as given. C_ij already contains the demand, so it
-is never multiplied by d_j again (see src/problem.py).
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass
