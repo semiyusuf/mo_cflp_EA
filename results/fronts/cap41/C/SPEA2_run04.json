@@ -1,0 +1,17 @@
+{
+ "instance": "cap41",
+ "config": "C",
+ "algorithm": "SPEA2",
+ "run": 4,
+ "seed": 2030,
+ "time_s": 12.168686599994544,
+ "evals": 20000,
+ "generations": 199,
+ "n_nondominated": 5,
+ "name": "C",
+ "pop_size": 100,
+ "max_evals": 20000,
+ "pc": 0.7,
+ "pm_factor": 3.0,
+ "init": "random"
+}

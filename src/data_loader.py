@@ -76,9 +76,5 @@ def load_instance(path: str | Path) -> CFLPInstance:
 
     if capacity.sum() < demand.sum():
         raise ValueError(f"{path}: total capacity is smaller than total demand - instance infeasible")
-    if demand.max() > capacity.max():
-        j = int(demand.argmax())
-        raise ValueError(f"{path}: customer {j} has demand {demand[j]:.0f} > largest capacity "
-                         f"{capacity.max():.0f} - cannot be served by a single facility")
 
     return CFLPInstance(path.stem, capacity, fixed_cost, demand, alloc_cost)

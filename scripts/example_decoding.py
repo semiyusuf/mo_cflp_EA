@@ -38,17 +38,18 @@ def main():
           f"open capacity {inst.capacity[genes == 1].sum():.0f}")
 
     trace = []
-    y, assign, (f1, f2) = Decoder(inst).decode(genes, trace)
+    y, X, (f1, f2) = Decoder(inst).decode(genes, trace)
     print("\nRepair / decoding steps:")
     for t in trace or ["(no repair needed)"]:
         print("  -", t)
 
     print("\nChromosome y (after repair):  ", "".join(map(str, y)))
-    print("\nFacility | capacity | load  | customers")
-    load = np.bincount(assign, weights=inst.demand, minlength=inst.m)
+    print("\nFacility | capacity | load  | customers (fraction of demand if split)")
+    load = X @ inst.demand
     for i in np.flatnonzero(y):
-        print(f"  {i:6d} | {inst.capacity[i]:8.0f} | {load[i]:5.0f} | {np.flatnonzero(assign == i).tolist()}")
-    print(f"\nFeasible: {is_feasible(inst, y, assign)}")
+        custs = [str(j) if X[i, j] == 1 else f"{j} ({X[i, j]:.2f})" for j in np.flatnonzero(X[i] > 0)]
+        print(f"  {i:6d} | {inst.capacity[i]:8.0f} | {load[i]:5.0f} | {', '.join(custs)}")
+    print(f"\nFeasible: {is_feasible(inst, y, X)}")
     print(f"f1 = sum F_i y_i       = {f1:,.2f}")
     print(f"f2 = sum C_ij x_ij     = {f2:,.2f}")
 

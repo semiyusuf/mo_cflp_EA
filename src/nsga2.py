@@ -93,13 +93,13 @@ def run_nsga2(inst: CFLPInstance, cfg: EAConfig, seed: int) -> RunResult:
     dec = Decoder(inst)
     N, pm = cfg.pop_size, cfg.pm(inst.m)
 
-    Y, _, F = dec.decode_population(init_population(rng, N, inst.m, cfg.init))
+    Y, F = dec.decode_population(init_population(rng, N, inst.m, cfg.init))
     evals, gen = N, 0
     rank, crowd = rank_and_crowding(F)
 
     while evals + N <= cfg.max_evals:
         parents = Y[tournament(rng, rank, crowd, N)]
-        Yc, _, Fc = dec.decode_population(variation(rng, parents, cfg.pc, pm))
+        Yc, Fc = dec.decode_population(variation(rng, parents, cfg.pc, pm))
         evals += N
         gen += 1
 

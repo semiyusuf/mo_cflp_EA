@@ -1,0 +1,17 @@
+{
+ "instance": "cap41",
+ "config": "B",
+ "algorithm": "NSGA-II",
+ "run": 3,
+ "seed": 2029,
+ "time_s": 5.745648499985691,
+ "evals": 10000,
+ "generations": 99,
+ "n_nondominated": 5,
+ "name": "B",
+ "pop_size": 100,
+ "max_evals": 10000,
+ "pc": 0.9,
+ "pm_factor": 1.0,
+ "init": "density"
+}

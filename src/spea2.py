@@ -89,7 +89,7 @@ def run_spea2(inst: CFLPInstance, cfg: EAConfig, seed: int) -> RunResult:
     N, pm = cfg.pop_size, cfg.pm(inst.m)
     archive_size = N
 
-    Y, _, F = dec.decode_population(init_population(rng, N, inst.m, cfg.init))
+    Y, F = dec.decode_population(init_population(rng, N, inst.m, cfg.init))
     evals, gen = N, 0
     AY, AF = np.empty((0, inst.m), dtype=np.int8), np.empty((0, 2))   # empty archive
 
@@ -103,7 +103,7 @@ def run_spea2(inst: CFLPInstance, cfg: EAConfig, seed: int) -> RunResult:
             break
 
         parents = AY[tournament(rng, afit, N)]
-        Y, _, F = dec.decode_population(variation(rng, parents, cfg.pc, pm))
+        Y, F = dec.decode_population(variation(rng, parents, cfg.pc, pm))
         evals += N
         gen += 1
 

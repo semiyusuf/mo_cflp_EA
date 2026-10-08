@@ -1,0 +1,17 @@
+{
+ "instance": "cap101",
+ "config": "B",
+ "algorithm": "SPEA2",
+ "run": 2,
+ "seed": 2028,
+ "time_s": 5.702177400002256,
+ "evals": 10000,
+ "generations": 99,
+ "n_nondominated": 25,
+ "name": "B",
+ "pop_size": 100,
+ "max_evals": 10000,
+ "pc": 0.9,
+ "pm_factor": 1.0,
+ "init": "density"
+}
