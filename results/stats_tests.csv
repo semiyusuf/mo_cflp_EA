@@ -1,0 +1,28 @@
+instance,config,metric,p_value,A12,significant,winner
+cap41,A,HV,1.0,0.5,False,no significant difference
+cap41,A,n_nondominated,1.0,0.5,False,no significant difference
+cap41,A,time_s,0.00018267179110955002,0.0,True,SPEA2
+cap41,B,HV,1.0,0.5,False,no significant difference
+cap41,B,n_nondominated,1.0,0.5,False,no significant difference
+cap41,B,time_s,0.00018267179110955002,0.0,True,SPEA2
+cap41,C,HV,1.0,0.5,False,no significant difference
+cap41,C,n_nondominated,1.0,0.5,False,no significant difference
+cap41,C,time_s,0.10410988966022681,0.28,False,no significant difference
+cap101,A,HV,0.053902557169387175,0.76,False,no significant difference
+cap101,A,n_nondominated,0.36812025069351895,0.45,False,no significant difference
+cap101,A,time_s,0.12122450301291662,0.29,False,no significant difference
+cap101,B,HV,0.46222378918394524,0.6,False,no significant difference
+cap101,B,n_nondominated,1.0,0.5,False,no significant difference
+cap101,B,time_s,0.00018267179110955002,0.0,True,SPEA2
+cap101,C,HV,0.9090383244564332,0.48,False,no significant difference
+cap101,C,n_nondominated,0.06362193848082277,0.3,False,no significant difference
+cap101,C,time_s,1.0,0.5,False,no significant difference
+cap121,A,HV,0.3074894566186813,0.36,False,no significant difference
+cap121,A,n_nondominated,0.0022077513078565445,0.095,True,SPEA2
+cap121,A,time_s,0.6775849579524755,0.44,False,no significant difference
+cap121,B,HV,0.6775849579524755,0.44,False,no significant difference
+cap121,B,n_nondominated,0.36812025069351895,0.55,False,no significant difference
+cap121,B,time_s,0.0036105143123296027,0.11,True,SPEA2
+cap121,C,HV,0.6231762238821174,0.43,False,no significant difference
+cap121,C,n_nondominated,0.585039168638672,0.575,False,no significant difference
+cap121,C,time_s,0.07566157214388704,0.26,False,no significant difference
