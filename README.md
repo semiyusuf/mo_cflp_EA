@@ -32,8 +32,8 @@ Installation
 Requires Python 3.11 or newer.
 
 bash
-git clone <https://github.com/semiyusuf/mo_cflp_EA.git>
-cd <mo_cflp_EA>
+git clone https://github.com/semiyusuf/mo_cflp_EA.git
+cd mo_cflp_EA
 python -m venv .venv
 source .venv/bin/activate        # Windows PowerShell: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
