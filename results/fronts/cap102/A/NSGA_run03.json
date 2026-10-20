@@ -1,0 +1,19 @@
+{
+ "instance": "cap102",
+ "config": "A",
+ "algorithm": "NSGA",
+ "run": 3,
+ "seed": 2029,
+ "time_s": 3.2925133999669924,
+ "evals": 5000,
+ "generations": 99,
+ "n_nondominated": 24,
+ "name": "A",
+ "pop_size": 50,
+ "max_evals": 5000,
+ "pc": 0.9,
+ "pm_factor": 1.0,
+ "init": "density",
+ "sigma_moga": 0.2,
+ "sigma_nsga": 0.5
+}

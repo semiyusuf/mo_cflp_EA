@@ -8,6 +8,15 @@ cap41,B,time_s,0.00018267179110955002,0.0,True,NSGA
 cap41,C,HV,1.0,0.5,False,no significant difference
 cap41,C,n_nondominated,1.0,0.5,False,no significant difference
 cap41,C,time_s,0.0211339281291611,0.19,True,NSGA
+cap42,A,HV,1.0,0.5,False,no significant difference
+cap42,A,n_nondominated,1.0,0.5,False,no significant difference
+cap42,A,time_s,0.0072845570094796615,0.14,True,NSGA
+cap42,B,HV,1.0,0.5,False,no significant difference
+cap42,B,n_nondominated,1.0,0.5,False,no significant difference
+cap42,B,time_s,0.00018267179110955002,0.0,True,NSGA
+cap42,C,HV,1.0,0.5,False,no significant difference
+cap42,C,n_nondominated,1.0,0.5,False,no significant difference
+cap42,C,time_s,0.0007685389131627665,0.05,True,NSGA
 cap101,A,HV,0.08897301170181328,0.73,False,no significant difference
 cap101,A,n_nondominated,1.0,0.505,False,no significant difference
 cap101,A,time_s,0.7337299956962472,0.45,False,no significant difference
@@ -17,6 +26,15 @@ cap101,B,time_s,0.6231762238821174,0.43,False,no significant difference
 cap101,C,HV,0.031209012771740218,0.21,True,NSGA
 cap101,C,n_nondominated,0.00037192812694707465,0.04,True,NSGA
 cap101,C,time_s,0.12122450301291662,0.29,False,no significant difference
+cap102,A,HV,0.08897301170181328,0.73,False,no significant difference
+cap102,A,n_nondominated,1.0,0.505,False,no significant difference
+cap102,A,time_s,0.9097218891455553,0.48,False,no significant difference
+cap102,B,HV,0.3074894566186813,0.64,False,no significant difference
+cap102,B,n_nondominated,0.30494103791292804,0.38,False,no significant difference
+cap102,B,time_s,0.5707503880581739,0.42,False,no significant difference
+cap102,C,HV,0.031209012771740218,0.21,True,NSGA
+cap102,C,n_nondominated,0.00037192812694707465,0.04,True,NSGA
+cap102,C,time_s,0.6775849579524755,0.44,False,no significant difference
 cap121,A,HV,0.06402210128302689,0.75,False,no significant difference
 cap121,A,n_nondominated,0.29954386156543855,0.36,False,no significant difference
 cap121,A,time_s,0.7337299956962472,0.55,False,no significant difference
@@ -26,3 +44,12 @@ cap121,B,time_s,0.3447042220069576,0.37,False,no significant difference
 cap121,C,HV,0.14046504815835495,0.3,False,no significant difference
 cap121,C,n_nondominated,0.0001687630193295421,0.0,True,NSGA
 cap121,C,time_s,0.7913367801006604,0.54,False,no significant difference
+cap122,A,HV,0.06402210128302689,0.75,False,no significant difference
+cap122,A,n_nondominated,0.29954386156543855,0.36,False,no significant difference
+cap122,A,time_s,0.04515456962427901,0.23,True,NSGA
+cap122,B,HV,0.0005828399431792743,0.96,True,MOGA
+cap122,B,n_nondominated,0.003785791530455816,0.115,True,NSGA
+cap122,B,time_s,0.12122450301291662,0.29,False,no significant difference
+cap122,C,HV,0.14046504815835495,0.3,False,no significant difference
+cap122,C,n_nondominated,0.0001687630193295421,0.0,True,NSGA
+cap122,C,time_s,0.08897301170181328,0.27,False,no significant difference
