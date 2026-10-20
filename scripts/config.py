@@ -19,7 +19,8 @@ DATA_DIR = ROOT / "data"
 RESULTS_DIR = ROOT / "results"
 
 ALL_INSTANCES = ["cap41", "cap42", "cap101", "cap102", "cap121", "cap122"]
-# one small, one medium, one large instance for the report analysis
+# one small, one medium, one large instance analysed in detail in the report
+# (all six in ALL_INSTANCES are run by default)
 REPORT_INSTANCES = ["cap41", "cap101", "cap121"]
 
 N_RUNS = 10

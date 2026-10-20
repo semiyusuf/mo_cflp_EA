@@ -1,10 +1,15 @@
-Multi-Objective Capacitated Facility Location (CFLP) with MOGA and NSGA
+# Multi-Objective Capacitated Facility Location (CFLP) with MOGA and NSGA
 
-ACIT4610 – Mid-Term Group Project 2, 2026 – Group <4>
+ACIT4610 – Mid-Term Group Project 2, 2026 – Group <NUMBER>
 
-Two Multi-Objective Evolutionary Algorithms from the lectures, MOGA (Fonseca & Fleming, 1993) and NSGA (Srinivas & Deb, 1994), implemented from scratch in Python to solve the bi-objective CFLP on OR-Library instances (Beasley). Objectives: minimise total facility-opening cost f1 = Σ F_i y_i and total customer-allocation cost f2 = Σ_i Σ_j C_ij x_ij.
+Two Multi-Objective Evolutionary Algorithms from the lectures, MOGA (Fonseca &
+Fleming, 1993) and NSGA (Srinivas & Deb, 1994), implemented
+from scratch in Python to solve the bi-objective CFLP on OR-Library
+instances (Beasley). Objectives: minimise total facility-opening cost
+f1 = Σ F_i y_i and total customer-allocation cost f2 = Σ_i Σ_j C_ij x_ij.
 
-Project structure
+## Project structure
+```
 data/                     OR-Library instances (cap41, cap42, cap101, cap102, cap121, cap122)
 src/
   data_loader.py          reads the OR-Library files (S_i, F_i, d_j, C_ij)
@@ -27,30 +32,33 @@ scripts/
   example_decoding.py     worked example of decoding one individual
 tests/                    unit tests (pytest)
 results/                  generated fronts, tables and figures
-Installation
+```
 
+## Installation
 Requires Python 3.11 or newer.
 
-bash
-git clone https://github.com/semiyusuf/mo_cflp_EA.git
-cd mo_cflp_EA
+```bash
+git clone <REPO_URL>
+cd <REPO_FOLDER>
 python -m venv .venv
 source .venv/bin/activate        # Windows PowerShell: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-Running
+```
+
+## Running
 
 All commands are run from the repository root with the virtual environment active.
 
-bash
+```bash
 # 1. Get the data (skips files already in data/) and check every file parses
 python scripts/download_data.py
 
 # 2. (optional) unit tests
 python -m pytest -q
 
-# 3. Run the experiments: cap41, cap101, cap121 x configs A, B, C x 10 runs x 2 MOEAs
-python scripts/run_experiments.py
-#    all six instances:          python scripts/run_experiments.py --instances all
+# 3. Run the experiments: all 6 instances x configs A, B, C x 10 runs x 2 MOEAs = 360 runs
+python scripts/run_experiments.py --jobs 4
+#    one instance per size only: python scripts/run_experiments.py --instances cap41 cap101 cap121
 #    quick smoke test (~10 s):   python scripts/run_experiments.py --instances cap41 --configs A --runs 1
 
 # 4. Compute hypervolume, statistics, tables and figures
@@ -58,54 +66,88 @@ python scripts/analyze_results.py
 
 # 5. Worked example of the representation and repair (report section 2)
 python scripts/example_decoding.py --instance cap41
+```
 
-run_experiments.py skips runs whose results already exist, so it can be interrupted and restarted. --jobs N runs N processes in parallel, which is faster but makes each run's measured time longer, because the runs share the CPU. The reported results were produced with --jobs 4; both algorithms ran under the same conditions, so their times remain comparable.
+`run_experiments.py` skips runs whose results already exist, so it can be
+interrupted and restarted. `--jobs N` runs N processes in parallel, which is
+faster but makes each run's measured time longer, because the runs share the
+CPU. The reported results were produced with `--jobs 4`; both algorithms ran
+under the same conditions, so their times remain comparable.
 
-Outputs (in results/)
-File	Content
-fronts/<inst>/<cfg>/<alg>_runXX.csv/.json	final non-dominated set of every run + seed, time, evaluations
-all_runs.csv	HV, number of non-dominated solutions and time for every run
-summary_table.csv/.md	mean, std, best, worst HV and #ND, mean time per instance/config/algorithm
-stats_tests.csv/.md	Mann-Whitney U test (α = 0.05) and A12, MOGA vs NSGA
-config_effect.csv/.md	effect of the three configurations
-hv_normalisation.csv	ideal/nadir bounds and HV reference point per instance
-figures/front_<inst>_<cfg>.png	Pareto fronts of both MOEAs on the same axes (median-HV run)
-figures/fronts_grid.png, figures/box_*.png	overview grid and box plots of HV, #ND, time
-Method summary
+### Outputs (in `results/`)
+| File | Content |
+|---|---|
+| `fronts/<inst>/<cfg>/<alg>_runXX.csv/.json` | final non-dominated set of every run + seed, time, evaluations |
+| `all_runs.csv` | HV, number of non-dominated solutions and time for every run |
+| `summary_table.csv/.md` | mean, std, best, worst HV and #ND, mean time per instance/config/algorithm |
+| `stats_tests.csv/.md` | Mann-Whitney U test (α = 0.05) and A12, MOGA vs NSGA |
+| `config_effect.csv/.md` | effect of the three configurations |
+| `hv_normalisation.csv` | ideal/nadir bounds and HV reference point per instance |
+| `figures/front_<inst>_<cfg>.png` | Pareto fronts of both MOEAs on the same axes (median-HV run) |
+| `figures/fronts_grid.png`, `figures/box_*.png` | overview grid and box plots of HV, #ND, time |
 
-Representation. A chromosome is a binary vector y of length m (1 = facility open). Customer assignments are produced by a deterministic decoder, so both MOEAs search the same space with the same operators.
+## Method summary
 
-Repair / decoding (src/representation.py), applied to every new chromosome:
+**Representation.** A chromosome is a binary vector y of length m (1 = facility
+open). Customer assignments are produced by a deterministic decoder, so both
+MOEAs search the same space with the same operators.
 
-Capacity repair: while open capacity < total demand, open the closed facility with the lowest unit cost F_i/S_i + mean_j(C_ij/d_j).
-Oversized customers: a customer whose demand exceeds every facility capacity (cap41/cap42: customer 33, d = 12,912 > S = 5,000) cannot be single-sourced. Its demand is split over open facilities, cheapest C_ij first; x_ij is the served fraction and costs x_ij · C_ij (C_ij is the cost of allocating all of j's demand). All other customers are single-sourced (x_ij ∈ {0, 1}).
-Greedy assignment: remaining customers in decreasing order of demand go to the open facility with the lowest C_ij that still has room. If none has room, the closed facility minimising F_i + C_ij (with S_i ≥ d_j) is opened. If capacity is fragmented so that nothing fits, the customers are re-packed with best-fit decreasing and f2 is improved with capacity-feasible shift/swap moves.
-Clean-up: open facilities that serve no demand are closed.
+**Repair / decoding** (`src/representation.py`), applied to every new chromosome:
+1. *Capacity repair*: while open capacity < total demand, open the closed facility
+   with the lowest unit cost F_i/S_i + mean_j(C_ij/d_j).
+2. *Oversized customers*: a customer whose demand exceeds every facility capacity
+   (cap41/cap42: customer 33, d = 12,912 > S = 5,000) cannot be single-sourced. Its
+   demand is split over open facilities, cheapest C_ij first; x_ij is the served
+   fraction and costs x_ij · C_ij (C_ij is the cost of allocating *all* of j's demand).
+   All other customers are single-sourced (x_ij ∈ {0, 1}).
+3. *Greedy assignment*: remaining customers in decreasing order of demand go to the
+   open facility with the lowest C_ij that still has room. If none has room, the closed
+   facility minimising F_i + C_ij (with S_i ≥ d_j) is opened. If capacity is
+   fragmented so that nothing fits, the customers are re-packed with best-fit
+   decreasing and f2 is improved with capacity-feasible shift/swap moves.
+4. *Clean-up*: open facilities that serve no demand are closed.
 
-The repaired chromosome is written back (Lamarckian), and f1, f2 are computed only on the resulting feasible solution. C_ij is used as given (it already includes demand).
+The repaired chromosome is written back (Lamarckian), and f1, f2 are computed
+only on the resulting feasible solution. C_ij is used as given (it already
+includes demand).
 
-Variation (identical for both MOEAs): uniform crossover with probability pc, bit-flip mutation with probability pm = pm_factor / m per gene.
+**Variation** (identical for both MOEAs): uniform crossover with probability pc,
+bit-flip mutation with probability pm = pm_factor / m per gene.
 
-Parameter configurations (scripts/config.py); within a configuration both MOEAs use identical settings and the same seeds (run r uses seed 2026 + r):
+**Parameter configurations** (`scripts/config.py`); within a configuration both
+MOEAs use identical settings and the same seeds (run r uses seed 2026 + r):
 
-Config	Population	Max evaluations	pc	pm	Initialisation
-A	50	5,000	0.9	1/m	density
-B	100	10,000	0.9	1/m	density
-C	100	20,000	0.7	3/m	random
+| Config | Population | Max evaluations | pc | pm | Initialisation |
+|---|---|---|---|---|---|
+| A | 50 | 5,000 | 0.9 | 1/m | density |
+| B | 100 | 10,000 | 0.9 | 1/m | density |
+| C | 100 | 20,000 | 0.7 | 3/m | random |
 
-random: each gene is 1 with probability 0.5. density: each individual draws its own p ~ U(0.1, 1.0), then each gene is 1 with probability p.
+*random*: each gene is 1 with probability 0.5. *density*: each individual draws
+its own p ~ U(0.1, 1.0), then each gene is 1 with probability p.
 
-Algorithms. Both are generational and non-elitist and select parents with stochastic universal sampling.
+**Algorithms.** Both are generational and non-elitist and select parents with
+stochastic universal sampling.
+- *MOGA*: rank = 1 + number of dominating solutions; average fitness per rank
+  F = N − Σ_{k<r} μ(k) − 0.5(μ(r) − 1); fitness sharing within each rank in
+  normalised objective space (σ_share = 0.2); scaling restores each rank's total.
+- *NSGA*: non-dominated fronts; front 1 gets dummy fitness N, each later front
+  0.99 × the minimum shared fitness of the previous one; fitness sharing within
+  each front in decision space using normalised Hamming distance (σ_share = 0.5).
 
-MOGA: rank = 1 + number of dominating solutions; average fitness per rank F = N − Σ_{k<r} μ(k) − 0.5(μ(r) − 1); fitness sharing within each rank in normalised objective space (σ_share = 0.2); scaling restores each rank's total.
-NSGA: non-dominated fronts; front 1 gets dummy fitness N, each later front 0.99 × the minimum shared fitness of the previous one; fitness sharing within each front in decision space using normalised Hamming distance (σ_share = 0.5).
+σ_share was chosen in a preliminary experiment (values 0.05–0.5, config A,
+2 seeds, best hypervolume kept).
 
-σ_share was chosen in a preliminary experiment (values 0.05–0.5, config A, 2 seeds, best hypervolume kept).
+**Final approximation set**: because neither algorithm is elitist, every run keeps
+an *offline archive* of all non-dominated solutions it evaluated. The archive never
+feeds back into the search; both algorithms use it identically. Duplicate objective
+vectors are removed before counting.
 
-Final approximation set: because neither algorithm is elitist, every run keeps an offline archive of all non-dominated solutions it evaluated. The archive never feeds back into the search; both algorithms use it identically. Duplicate objective vectors are removed before counting.
+**Hypervolume**: per instance, the ideal and nadir points are taken over the union
+of all final fronts of both MOEAs, all configurations and all runs. Objectives are
+min-max normalised to [0, 1] and HV is computed exactly (2-D) with reference
+point (1.1, 1.1). Values are saved in `results/hv_normalisation.csv`.
 
-Hypervolume: per instance, the ideal and nadir points are taken over the union of all final fronts of both MOEAs, all configurations and all runs. Objectives are min-max normalised to [0, 1] and HV is computed exactly (2-D) with reference point (1.1, 1.1). Values are saved in results/hv_normalisation.csv.
-
-Data source
-
-J. E. Beasley, OR-Library, Capacitated Warehouse Location: https://people.brunel.ac.uk/~mastjjb/jeb/orlib/capinfo.html
+## Data source
+J. E. Beasley, OR-Library, Capacitated Warehouse Location:
+https://people.brunel.ac.uk/~mastjjb/jeb/orlib/capinfo.html

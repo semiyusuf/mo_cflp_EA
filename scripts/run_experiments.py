@@ -10,8 +10,8 @@ simply be restarted. Metrics/tables/figures are produced afterwards by
 scripts/analyze_results.py (HV normalisation needs all fronts first).
 
 Examples
-    python scripts/run_experiments.py                       # report instances, all configs, 10 runs
-    python scripts/run_experiments.py --instances all
+    python scripts/run_experiments.py                       # all 6 instances, all configs, 10 runs
+    python scripts/run_experiments.py --instances cap41 cap101 cap121   # one per size only
     python scripts/run_experiments.py --instances cap41 --configs A --runs 2   # quick test
     python scripts/run_experiments.py --jobs 4              # parallel (timings less precise)
 """
@@ -56,7 +56,7 @@ def one_run(instance, cfg_name, alg, run):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--instances", nargs="+", default=REPORT_INSTANCES,
+    ap.add_argument("--instances", nargs="+", default=ALL_INSTANCES,
                     help="instance names, or 'all' (default: %(default)s)")
     ap.add_argument("--configs", nargs="+", default=list(CONFIGS), choices=list(CONFIGS))
     ap.add_argument("--algorithms", nargs="+", default=list(ALGORITHMS), choices=list(ALGORITHMS))
