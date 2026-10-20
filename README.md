@@ -1,6 +1,6 @@
 # Multi-Objective Capacitated Facility Location (CFLP) with MOGA and NSGA
 
-ACIT4610 – Mid-Term Group Project 2, 2026 – Group <NUMBER>
+ACIT4610 – Mid-Term Group Project 2, 2026 – Group 4
 
 Two Multi-Objective Evolutionary Algorithms from the lectures, MOGA (Fonseca &
 Fleming, 1993) and NSGA (Srinivas & Deb, 1994), implemented
@@ -38,8 +38,9 @@ results/                  generated fronts, tables and figures
 Requires Python 3.11 or newer.
 
 ```bash
-git clone <REPO_URL>
-cd <REPO_FOLDER>
+git clone -b B-moga-nsga
+https://github.com/semiyusuf/mo_cflp_EA/tree/B-moga-nsga
+cd mo_cflp_EA
 python -m venv .venv
 source .venv/bin/activate        # Windows PowerShell: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
