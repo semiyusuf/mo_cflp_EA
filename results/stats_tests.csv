@@ -1,22 +1,22 @@
 instance,config,metric,p_value,A12,significant,winner
 cap41,A,HV,1.0,0.5,False,no significant difference
 cap41,A,n_nondominated,1.0,0.5,False,no significant difference
-cap41,A,time_s,0.0013149446697132139,0.07,True,NSGA
+cap41,A,time_s,0.0013149446697132139,0.07,True,MOGA
 cap41,B,HV,1.0,0.5,False,no significant difference
 cap41,B,n_nondominated,1.0,0.5,False,no significant difference
-cap41,B,time_s,0.00018267179110955002,0.0,True,NSGA
+cap41,B,time_s,0.00018267179110955002,0.0,True,MOGA
 cap41,C,HV,1.0,0.5,False,no significant difference
 cap41,C,n_nondominated,1.0,0.5,False,no significant difference
-cap41,C,time_s,0.0211339281291611,0.19,True,NSGA
+cap41,C,time_s,0.0211339281291611,0.19,True,MOGA
 cap42,A,HV,1.0,0.5,False,no significant difference
 cap42,A,n_nondominated,1.0,0.5,False,no significant difference
-cap42,A,time_s,0.0072845570094796615,0.14,True,NSGA
+cap42,A,time_s,0.0072845570094796615,0.14,True,MOGA
 cap42,B,HV,1.0,0.5,False,no significant difference
 cap42,B,n_nondominated,1.0,0.5,False,no significant difference
-cap42,B,time_s,0.00018267179110955002,0.0,True,NSGA
+cap42,B,time_s,0.00018267179110955002,0.0,True,MOGA
 cap42,C,HV,1.0,0.5,False,no significant difference
 cap42,C,n_nondominated,1.0,0.5,False,no significant difference
-cap42,C,time_s,0.0007685389131627665,0.05,True,NSGA
+cap42,C,time_s,0.0007685389131627665,0.05,True,MOGA
 cap101,A,HV,0.08897301170181328,0.73,False,no significant difference
 cap101,A,n_nondominated,1.0,0.505,False,no significant difference
 cap101,A,time_s,0.7337299956962472,0.45,False,no significant difference
@@ -46,7 +46,7 @@ cap121,C,n_nondominated,0.0001687630193295421,0.0,True,NSGA
 cap121,C,time_s,0.7913367801006604,0.54,False,no significant difference
 cap122,A,HV,0.06402210128302689,0.75,False,no significant difference
 cap122,A,n_nondominated,0.29954386156543855,0.36,False,no significant difference
-cap122,A,time_s,0.04515456962427901,0.23,True,NSGA
+cap122,A,time_s,0.04515456962427901,0.23,True,MOGA
 cap122,B,HV,0.0005828399431792743,0.96,True,MOGA
 cap122,B,n_nondominated,0.003785791530455816,0.115,True,NSGA
 cap122,B,time_s,0.12122450301291662,0.29,False,no significant difference

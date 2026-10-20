@@ -92,7 +92,11 @@ def main():
             if len(a) > 1 and len(b) > 1:
                 for metric in ("HV", "n_nondominated", "time_s"):
                     r = compare(a[metric].values, b[metric].values)
-                    r["winner"] = {"first": "MOGA", "second": "NSGA"}.get(r["winner"], r["winner"])
+                    #r["winner"] = {"first": "MOGA", "second": "NSGA"}.get(r["winner"], r["winner"])
+                    names = {"first": "MOGA", "second": "NSGA"}
+                    if metric == "time_s":   # lower time is better, so the smaller value wins
+                        names = {"first": "NSGA", "second": "MOGA"}
+                    r["winner"] = names.get(r["winner"], r["winner"])
                     tests.append(dict(instance=inst, config=cfg, metric=metric, **r))
     summ = pd.DataFrame(summ)
     summ.to_csv(RESULTS_DIR / "summary_table.csv", index=False)
