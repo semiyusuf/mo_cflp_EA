@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 STYLE = {
-    "NSGA-II": dict(color="#2a6fdb", marker="o"),
-    "SPEA2": dict(color="#e0731f", marker="s"),
+    "MOGA": dict(color="#2a6fdb", marker="o"),
+    "NSGA": dict(color="#e0731f", marker="s"),
 }
 
 

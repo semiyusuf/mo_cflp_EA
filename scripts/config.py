@@ -1,3 +1,11 @@
+"""
+Experimental set-up shared by all scripts.
+
+Within a configuration, MOGA and NSGA get exactly the same parameters,
+the same evaluation budget, the same initialisation method and the same
+random seeds (run r uses seed BASE_SEED + r for both algorithms, so both
+start from the identical initial population).
+"""
 import sys
 from pathlib import Path
 

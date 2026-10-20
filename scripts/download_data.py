@@ -1,3 +1,9 @@
+"""
+Download the six required OR-Library instances into data/ and check that each
+file parses with the expected size (m facilities, n = 50 customers).
+
+    python scripts/download_data.py
+"""
 import urllib.request
 
 from config import ALL_INSTANCES, DATA_DIR

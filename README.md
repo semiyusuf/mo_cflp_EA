@@ -1,8 +1,9 @@
-# Multi-Objective Capacitated Facility Location (CFLP) with NSGA-II and SPEA2
+# Multi-Objective Capacitated Facility Location (CFLP) with MOGA and NSGA
 
 ACIT4610 – Mid-Term Group Project 2, 2026 – Group <NUMBER>
 
-Two Multi-Objective Evolutionary Algorithms (NSGA-II and SPEA2) implemented
+Two Multi-Objective Evolutionary Algorithms from the lectures, MOGA (Fonseca &
+Fleming, 1993) and NSGA (Srinivas & Deb, 1994), implemented
 from scratch in Python to solve the bi-objective CFLP on OR-Library
 instances (Beasley). Objectives: minimise total facility-opening cost
 f1 = Σ F_i y_i and total customer-allocation cost f2 = Σ_i Σ_j C_ij x_ij.
@@ -14,11 +15,12 @@ src/
   data_loader.py          reads the OR-Library files (S_i, F_i, d_j, C_ij)
   problem.py              objective evaluation (f1, f2) and feasibility check
   representation.py       binary chromosome + repair/decoding to a feasible solution
-  operators.py            initialisation, uniform crossover, bit-flip mutation (shared)
-  pareto.py               dominance utilities (shared)
+  operators.py            initialisation, uniform crossover, bit-flip mutation, SUS selection,
+                          sharing function (all shared)
+  pareto.py               dominance, non-dominated sorting, offline archive (shared)
   common.py               parameter configuration and run-result containers
-  nsga2.py                NSGA-II: non-dominated sort, crowding distance, tournament, elitist selection
-  spea2.py                SPEA2: strength/raw fitness, density, archive, truncation, tournament
+  moga.py                 MOGA: rank = 1 + #dominators, averaged fitness, sharing in objective space
+  nsga.py                 NSGA: non-dominated fronts, front-wise sharing in decision space (Hamming)
   metrics.py              normalisation + exact 2-D hypervolume
   statistics_tests.py     Mann-Whitney U test and Vargha-Delaney A12
   plotting.py             Pareto-front and box plots
@@ -77,7 +79,7 @@ times use the default `--jobs 1`.
 | `fronts/<inst>/<cfg>/<alg>_runXX.csv/.json` | final non-dominated set of every run + seed, time, evaluations |
 | `all_runs.csv` | HV, number of non-dominated solutions and time for every run |
 | `summary_table.csv/.md` | mean, std, best, worst HV and #ND, mean time per instance/config/algorithm |
-| `stats_tests.csv/.md` | Mann-Whitney U test (α = 0.05) and A12, NSGA-II vs SPEA2 |
+| `stats_tests.csv/.md` | Mann-Whitney U test (α = 0.05) and A12, MOGA vs NSGA |
 | `config_effect.csv/.md` | effect of the three configurations |
 | `hv_normalisation.csv` | ideal/nadir bounds and HV reference point per instance |
 | `figures/front_<inst>_<cfg>.png` | Pareto fronts of both MOEAs on the same axes (median-HV run) |
@@ -114,7 +116,7 @@ bit-flip mutation with probability pm = pm_factor / m per gene.
 **Parameter configurations** (`scripts/config.py`); within a configuration both
 MOEAs use identical settings and the same seeds (run r uses seed 2026 + r):
 
-| Config | Population (= SPEA2 archive) | Max evaluations | pc | pm | Initialisation |
+| Config | Population | Max evaluations | pc | pm | Initialisation |
 |---|---|---|---|---|---|
 | A | 50 | 5,000 | 0.9 | 1/m | density |
 | B | 100 | 10,000 | 0.9 | 1/m | density |
@@ -123,9 +125,22 @@ MOEAs use identical settings and the same seeds (run r uses seed 2026 + r):
 *random*: each gene is 1 with probability 0.5. *density*: each individual draws
 its own p ~ U(0.1, 1.0), then each gene is 1 with probability p.
 
-**Final approximation set**: NSGA-II, rank-1 solutions of the final population;
-SPEA2, non-dominated members of the final archive. Duplicate objective vectors are
-removed before counting.
+**Algorithms.** Both are generational and non-elitist and select parents with
+stochastic universal sampling.
+- *MOGA*: rank = 1 + number of dominating solutions; average fitness per rank
+  F = N − Σ_{k<r} μ(k) − 0.5(μ(r) − 1); fitness sharing within each rank in
+  normalised objective space (σ_share = 0.2); scaling restores each rank's total.
+- *NSGA*: non-dominated fronts; front 1 gets dummy fitness N, each later front
+  0.99 × the minimum shared fitness of the previous one; fitness sharing within
+  each front in decision space using normalised Hamming distance (σ_share = 0.5).
+
+σ_share was chosen in a preliminary experiment (values 0.05–0.5, config A,
+2 seeds, best hypervolume kept).
+
+**Final approximation set**: because neither algorithm is elitist, every run keeps
+an *offline archive* of all non-dominated solutions it evaluated. The archive never
+feeds back into the search; both algorithms use it identically. Duplicate objective
+vectors are removed before counting.
 
 **Hypervolume**: per instance, the ideal and nadir points are taken over the union
 of all final fronts of both MOEAs, all configurations and all runs. Objectives are

@@ -1,0 +1,19 @@
+{
+ "instance": "cap121",
+ "config": "C",
+ "algorithm": "NSGA",
+ "run": 0,
+ "seed": 2026,
+ "time_s": 13.920792500022799,
+ "evals": 20000,
+ "generations": 199,
+ "n_nondominated": 37,
+ "name": "C",
+ "pop_size": 100,
+ "max_evals": 20000,
+ "pc": 0.7,
+ "pm_factor": 3.0,
+ "init": "random",
+ "sigma_moga": 0.2,
+ "sigma_nsga": 0.5
+}

@@ -1,3 +1,4 @@
+"""Settings and result containers shared by both MOEAs."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -9,11 +10,15 @@ import numpy as np
 class EAConfig:
     """One parameter configuration. Both MOEAs receive the identical object."""
     name: str
-    pop_size: int        # N (SPEA2 archive size is also N)
+    pop_size: int        # N
     max_evals: int       # termination: maximum number of objective evaluations
     pc: float            # crossover probability (per pair)
     pm_factor: float     # mutation probability per gene = pm_factor / m
     init: str            # initialisation method, see operators.init_population
+    # sharing radius of each algorithm's own niching (algorithm-specific parameter)
+    # chosen by a preliminary experiment (values 0.05-0.5 tried, best hypervolume kept)
+    sigma_moga: float = 0.2   # MOGA: distance in normalised OBJECTIVE space
+    sigma_nsga: float = 0.5   # NSGA: normalised Hamming distance in DECISION space
 
     def pm(self, m: int) -> float:
         return self.pm_factor / m

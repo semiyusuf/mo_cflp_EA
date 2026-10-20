@@ -1,3 +1,8 @@
+"""
+Problem-specific variation operators. Both MOGA and NSGA call exactly the
+same functions here (same initialisation, crossover, mutation), followed by the
+same decoder/repair (src/representation.py).
+"""
 from __future__ import annotations
 
 import numpy as np
@@ -53,3 +58,26 @@ def variation(rng, parents: np.ndarray, pc: float, pm: float) -> np.ndarray:
         if k + 1 < N:
             children[k + 1] = bit_flip_mutation(rng, c2, pm)
     return children
+
+
+def stochastic_universal_sampling(rng, fitness: np.ndarray, n_select: int) -> np.ndarray:
+    """Fitness-proportional selection (Baker, 1987), as used by MOGA and NSGA.
+    Higher fitness = larger slice of a roulette wheel. Instead of spinning the
+    wheel n times, SUS spins ONCE and reads n equally spaced pointers, which
+    gives every solution a number of copies very close to its expected value.
+    The chosen indices are shuffled so that crossover pairs are random."""
+    p = fitness / fitness.sum()
+    cum = np.cumsum(p)
+    cum[-1] = 1.0                                       # guard against rounding
+    step = 1.0 / n_select
+    pointers = rng.random() * step + step * np.arange(n_select)
+    chosen = np.searchsorted(cum, pointers, side="right")
+    return rng.permutation(chosen)
+
+
+def sharing_function(d: np.ndarray, sigma_share: float, alpha: float = 1.0) -> np.ndarray:
+    """Goldberg & Richardson (1987) sharing function:
+        Sh(d) = 1 - (d / sigma_share)^alpha   if d < sigma_share
+                0                             otherwise
+    Sh(0) = 1 (a solution fully shares with itself / its copies)."""
+    return np.where(d < sigma_share, 1.0 - (d / sigma_share) ** alpha, 0.0)

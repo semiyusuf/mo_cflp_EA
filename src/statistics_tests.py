@@ -3,10 +3,10 @@ Statistical comparison of the two MOEAs over independent runs.
 
 - Summary statistics: mean, standard deviation, best, worst.
 - Mann-Whitney U test (Wilcoxon rank-sum), two-sided, alpha = 0.05: are the
-  HV values of NSGA-II and SPEA2 drawn from the same distribution? Non-
+  HV values of MOGA and NSGA drawn from the same distribution? Non-
   parametric, so no normality assumption is needed for 10 runs.
-- Vargha-Delaney A12 effect size: probability that a random NSGA-II run has
-  a larger value than a random SPEA2 run (0.5 = no difference;
+- Vargha-Delaney A12 effect size: probability that a random MOGA run has
+  a larger value than a random NSGA run (0.5 = no difference;
   |A12 - 0.5| >= 0.21 is usually called a large effect).
 """
 from __future__ import annotations

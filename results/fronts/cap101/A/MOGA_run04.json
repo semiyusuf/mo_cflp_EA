@@ -1,0 +1,19 @@
+{
+ "instance": "cap101",
+ "config": "A",
+ "algorithm": "MOGA",
+ "run": 4,
+ "seed": 2030,
+ "time_s": 3.457120599981863,
+ "evals": 5000,
+ "generations": 99,
+ "n_nondominated": 23,
+ "name": "A",
+ "pop_size": 50,
+ "max_evals": 5000,
+ "pc": 0.9,
+ "pm_factor": 1.0,
+ "init": "density",
+ "sigma_moga": 0.2,
+ "sigma_nsga": 0.5
+}

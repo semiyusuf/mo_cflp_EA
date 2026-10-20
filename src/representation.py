@@ -1,3 +1,40 @@
+"""
+Chromosome representation and feasibility repair / decoding.
+
+REPRESENTATION
+    A chromosome is a binary vector y of length m (one gene per candidate
+    facility, 1 = open). Customer allocations are NOT encoded; they are
+    produced deterministically by the decoder below. Both MOEAs use this same
+    representation and the same decoder, so the comparison is fair.
+
+DECODER (repair + allocation), applied to every new chromosome:
+    Step 1 - capacity repair: while total open capacity < total demand, open
+             the closed facility with the lowest "unit cost"
+                 u_i = F_i / S_i + mean_j (C_ij / d_j)
+             (opening cost per unit of capacity + average transport cost per
+             unit of demand). Deterministic, ties broken by lowest index.
+    Step 2 - oversized customers: a customer whose demand exceeds every
+             facility capacity (cap41: customer 33, d = 12912 > S = 5000)
+             cannot be served by one facility. Its demand is split over the
+             open facilities, cheapest C_ij first, each taking as much as its
+             residual capacity allows (opening the lowest-unit-cost closed
+             facility if the open ones are full). x_ij = served fraction.
+    Step 3 - greedy single-source assignment of all other customers, in
+             decreasing order of demand: each goes to the open facility with
+             the lowest C_ij that still has enough residual capacity. If none
+             has room, the closed facility minimising F_i + C_ij among those
+             with S_i >= d_j is opened and the customer is assigned there.
+    Step 3b - fallback if Step 3 gets stuck (capacity fragmented: every
+             facility has some room left but not enough for the next customer,
+             and no suitable closed facility is left): re-pack with best-fit
+             decreasing (each customer goes to the open facility with the
+             SMALLEST residual capacity that fits), then improve f2 with
+             shift and swap moves that keep every facility within capacity.
+    Step 4 - clean-up: open facilities that serve no demand are closed
+             (they would only add to f1).
+    The repaired y is written back into the chromosome (Lamarckian repair),
+    so the genotype always matches the evaluated, feasible phenotype.
+"""
 from __future__ import annotations
 
 import numpy as np
@@ -23,7 +60,21 @@ class Decoder:
     # ------------------------------------------------------------------ main
     def decode(self, genes: np.ndarray, trace: list | None = None):
         """Return (y_repaired, X, (f1, f2)). If `trace` is a list, the repair
-        steps are appended to it (used for the report example)."""
+        steps are appended to it (used for the report example).
+
+        The repair is repeated on its own output until the chromosome no
+        longer changes (at most a few rounds). This guarantees that decoding
+        the repaired chromosome again gives exactly the same solution, so the
+        Lamarckian write-back is consistent."""
+        y = genes.astype(np.int8)
+        for _ in range(5):
+            y_new, X, obj = self._decode_once(y, trace)
+            if np.array_equal(y_new, y):
+                break
+            y = y_new
+        return y_new, X, obj
+
+    def _decode_once(self, genes: np.ndarray, trace: list | None = None):
         inst = self.inst
         y = genes.astype(np.int8).copy()
 

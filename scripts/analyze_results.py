@@ -1,3 +1,18 @@
+"""
+Compute metrics, statistical tests, tables and figures from the saved fronts.
+
+    python scripts/analyze_results.py
+
+Outputs (all in results/):
+    hv_normalisation.csv     ideal/nadir bounds and HV reference point per instance
+    all_runs.csv             one row per run: HV, #non-dominated, time, ...
+    summary_table.csv / .md  mean, std, best, worst of HV and #ND, mean time
+    stats_tests.csv / .md    Mann-Whitney U test + A12 (MOGA vs NSGA)
+    config_effect.csv / .md  per algorithm: effect of the three configurations
+    figures/front_<inst>_<cfg>.png   Pareto fronts, both MOEAs on the same axes
+    figures/fronts_grid.png          all instances x configurations
+    figures/box_hv.png, box_nd.png, box_time.png
+"""
 import json
 
 import numpy as np
@@ -9,7 +24,7 @@ from src.metrics import REF_POINT, bounds_from_fronts, hypervolume_2d, normalise
 from src.plotting import save_front_figure, save_front_grid, save_metric_boxplots
 from src.statistics_tests import compare, summary
 
-ALG_ORDER = ["NSGA-II", "SPEA2"]
+ALG_ORDER = ["MOGA", "NSGA"]
 
 
 def load_runs():
@@ -73,11 +88,11 @@ def main():
                                  HV_mean=hv["mean"], HV_std=hv["std"], HV_best=hv["best"], HV_worst=hv["worst"],
                                  ND_mean=nd["mean"], ND_std=nd["std"], ND_best=int(nd["best"]),
                                  ND_worst=int(nd["worst"]), time_mean_s=t["mean"], time_std_s=t["std"]))
-            a, b = sub[sub.algorithm == "NSGA-II"], sub[sub.algorithm == "SPEA2"]
+            a, b = sub[sub.algorithm == "MOGA"], sub[sub.algorithm == "NSGA"]
             if len(a) > 1 and len(b) > 1:
                 for metric in ("HV", "n_nondominated", "time_s"):
                     r = compare(a[metric].values, b[metric].values)
-                    r["winner"] = {"first": "NSGA-II", "second": "SPEA2"}.get(r["winner"], r["winner"])
+                    r["winner"] = {"first": "MOGA", "second": "NSGA"}.get(r["winner"], r["winner"])
                     tests.append(dict(instance=inst, config=cfg, metric=metric, **r))
     summ = pd.DataFrame(summ)
     summ.to_csv(RESULTS_DIR / "summary_table.csv", index=False)
